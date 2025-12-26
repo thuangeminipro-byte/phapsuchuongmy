@@ -84,7 +84,7 @@
         </div>
         <div class="card">
             <h2>ĐỒNG BỘ DỮ LIỆU</h2>
-            <div id="syncStat" style="font-size: 11px; margin-bottom: 10px;">Đang tải từ GitHub...</div>
+            <div id="syncStat" style="font-size: 11px; margin-bottom: 10px;">Đang tải từ Server...</div>
             <button onclick="fetchCloudData()" style="background: rgba(255,255,255,0.1); height: 44px;">LÀM MỚI DỮ LIỆU</button>
         </div>
     </div>
@@ -104,7 +104,7 @@
         </div>
         <div class="card" style="flex:1; display:flex; flex-direction:column; min-height:0;">
             <h2>NHẬT KÝ HỆ THỐNG (TERMINAL)</h2>
-            <div id="logs">> Megaads Cloud v49 Fixed Align.</div>
+            <div id="logs">> Systems ready.</div>
         </div>
     </div>
 
@@ -122,9 +122,9 @@
                 staffs = data.staffs; locs = data.locs;
                 renderStaffs(); updateLocs(); updateSchedLocs();
                 document.getElementById('syncStat').innerHTML = `<span style="color:var(--success);">● Đồng bộ Cloud thành công</span>`;
-                log("Đã cập nhật dữ liệu mới nhất từ GitHub.");
+                log("Đã cập nhật dữ liệu mới nhất từ Server.");
             } catch (e) { 
-                document.getElementById('syncStat').innerHTML = `<span style="color:var(--danger);">● Lỗi kết nối GitHub</span>`;
+                document.getElementById('syncStat').innerHTML = `<span style="color:var(--danger);">● Lỗi kết nối Server</span>`;
                 log("Lỗi: Không thể tải data.json.", "#ff5858"); 
             }
         }
@@ -199,3 +199,4 @@
     </script>
 </body>
 </html>
+
