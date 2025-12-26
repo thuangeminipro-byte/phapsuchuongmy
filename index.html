@@ -42,16 +42,7 @@
         .btn-ot { background: linear-gradient(90deg, var(--accent-ot), var(--accent-ot-end)); }
         .btn-save { background: linear-gradient(90deg, #38ef7d, #11998e); margin-top: 5px; }
         .btn-del { background: rgba(255, 88, 88, 0.2); color: var(--danger); width: 35px; border: 1px solid var(--danger); margin-left: 5px; height: 40px; }
-        /* Sửa riêng cho nút XÓA LỊCH trong bảng hẹn giờ */
-        .btn-del-item {
-    background: linear-gradient(90deg, #ff5858, #f857a6) !important;
-    color: white !important;
-    padding: 5px 15px;
-    border-radius: 6px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(255, 88, 88, 0.3);
+        .btn-del-item { background: linear-gradient(90deg, #ff5858, #f857a6) !important; color: white !important; padding: 5px 15px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 88, 88, 0.3); } .btn-del-item:hover { filter: brightness(1.1); transform: scale(1.05); }
         .btn-sched { background: linear-gradient(90deg, #8E2DE2, #4A00E0); flex: 1; height: 44px; margin-bottom: 10px; }
         .info-panel { background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border: 1px dashed var(--border); font-family: monospace; font-size: 11px; }
         .info-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
@@ -151,7 +142,7 @@
             document.getElementById('delLocBtn').onclick = delLoc;
             document.getElementById('addSchedBtn').onclick = addSchedule;
             
-            document.getElementById('btnOffice').onclick = () => manualCheck('OFFICE');
+            document.getElementById('btnOffice').onclick = () => manualCheck('HÀNH CHÍNH');
             document.getElementById('btnOT').onclick = () => manualCheck('OT');
         };
 
@@ -300,4 +291,5 @@
     </script>
 </body>
 </html>
+
 
