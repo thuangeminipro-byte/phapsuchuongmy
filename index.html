@@ -2,90 +2,94 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Megaads Cloud Tool v50</title>
+    <title>Megaads v51 - Ultra Glow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00f2fe; --secondary: #4facfe; --accent-ot: #fa709a; --accent-ot-end: #fee140; --success: #43e97b; --danger: #ff5858; --text: #e0e6ed; --text-muted: #8ba0b6; --border: rgba(255,255,255,0.15); --glass: rgba(255, 255, 255, 0.05); }
-        body { margin: 0; padding: 25px; font-family: 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); color: var(--text); display: grid; grid-template-columns: 360px 1fr; gap: 25px; height: 100vh; box-sizing: border-box; overflow: hidden; }
-        .sidebar, .main-content { display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
-        .card { background: var(--glass); padding: 20px; border-radius: 20px; border: 1px solid var(--border); backdrop-filter: blur(20px); position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 20px 20px 0 0; }
-        h2 { margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: var(--primary); letter-spacing: 2px; font-weight: 800; }
+        :root { --primary: #00f2fe; --secondary: #4facfe; --accent-ot: #fa709a; --accent-ot-end: #fee140; --success: #43e97b; --danger: #ff5858; --text: #e0e6ed; --border: rgba(0, 242, 254, 0.3); }
+        body { margin: 0; padding: 25px; font-family: 'Rajdhani', sans-serif; background: #050517; color: var(--text); display: grid; grid-template-columns: 380px 1fr; gap: 30px; height: 100vh; box-sizing: border-box; overflow: hidden; }
         
-        /* Cải thiện Dropdown và Input */
+        /* Hiệu ứng Glassmorphism & Neon Glow */
+        .card { background: rgba(255, 255, 255, 0.03); padding: 25px; border-radius: 20px; border: 1px solid var(--border); backdrop-filter: blur(15px); position: relative; box-shadow: 0 0 20px rgba(0, 242, 254, 0.1); transition: 0.4s; }
+        .card:hover { border-color: var(--primary); box-shadow: 0 0 30px rgba(0, 242, 254, 0.2); }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
+        
+        h2 { margin: 0 0 20px 0; font-family: 'Orbitron', sans-serif; font-size: 13px; text-transform: uppercase; color: var(--primary); letter-spacing: 3px; text-shadow: 0 0 10px var(--primary); }
+        
+        /* Dropdown & Input nâng cấp */
         select, input { 
-            width: 100%; padding: 14px; background: rgba(0,0,0,0.6); border: 1px solid var(--border); 
-            color: var(--primary); border-radius: 12px; font-size: 13px; margin-bottom: 12px; 
-            outline: none; transition: 0.3s; cursor: pointer; color-scheme: dark;
+            width: 100%; padding: 14px; background: rgba(0, 0, 0, 0.7); border: 1px solid var(--border); 
+            color: var(--primary); border-radius: 10px; font-size: 14px; margin-bottom: 15px; 
+            outline: none; transition: 0.3s; font-family: 'Rajdhani', sans-serif; font-weight: bold;
         }
-        select:hover, input:hover { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); }
-        select option { background: #1e1b4b; color: #fff; padding: 10px; }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
 
-        /* Cải thiện nút bấm và khoảng cách */
-        .btn-group { display: flex; gap: 15px; margin-top: 5px; } /* Thêm khoảng cách giữa 2 nút */
+        /* Nút bấm thiết kế lại - Tách xa nhau */
+        .btn-flex-row { display: flex; gap: 20px; margin-top: 10px; } /* Tăng Gap lên 20px */
         button { 
-            width: 100%; padding: 14px; border: none; border-radius: 12px; 
-            font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 11px; 
-            color: white; text-transform: uppercase; letter-spacing: 1px;
+            width: 100%; padding: 15px; border: none; border-radius: 12px; 
+            font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; 
+            transition: 0.3s; font-size: 11px; color: white; text-transform: uppercase; letter-spacing: 1px;
         }
-        button:active { transform: scale(0.95); }
-        .btn-office { background: linear-gradient(90deg, #4facfe, #00f2fe); box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3); }
-        .btn-ot { background: linear-gradient(90deg, #fa709a, #fee140); box-shadow: 0 4px 15px rgba(250, 112, 154, 0.3); }
+        button:hover { transform: translateY(-3px); filter: brightness(1.2); }
+        .btn-office { background: linear-gradient(135deg, #00f2fe, #4facfe); box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4); }
+        .btn-ot { background: linear-gradient(135deg, #fa709a, #fee140); box-shadow: 0 5px 15px rgba(250, 112, 154, 0.4); }
         
-        /* Badge màu sắc */
-        .badge-office { background: rgba(0, 242, 254, 0.15); color: var(--primary); border: 1px solid var(--primary); padding: 5px 12px; border-radius: 8px; font-size: 10px; font-weight: bold; }
-        .badge-ot { background: linear-gradient(90deg, var(--accent-ot), var(--accent-ot-end)); color: white; padding: 5px 12px; border-radius: 8px; font-size: 10px; font-weight: bold; }
-        
-        .btn-del-item { background: linear-gradient(45deg, #ff5858, #f857a6); border: none; padding: 8px 18px; border-radius: 10px; cursor: pointer; color: #fff; font-weight: bold; }
-        #logs { background: rgba(0,0,0,0.4); color: var(--success); font-family: 'Consolas', monospace; padding: 15px; border-radius: 15px; flex: 1; overflow-y: auto; font-size: 12px; border: 1px solid var(--border); }
-        #clock { float: right; font-size: 20px; color: var(--primary); font-family: 'Orbitron', monospace; text-shadow: 0 0 10px var(--primary); }
-        
-        .table-container { overflow-y: auto; max-height: 280px; background: rgba(0,0,0,0.3); border-radius: 15px; margin-top: 15px; }
+        /* Hiệu ứng cho chữ */
+        .glow-text { color: var(--primary); text-shadow: 0 0 5px var(--primary); font-weight: bold; }
+        .badge-ot { background: linear-gradient(90deg, var(--accent-ot), var(--accent-ot-end)); color: #000; padding: 5px 12px; border-radius: 6px; font-weight: 800; font-size: 10px; }
+        .badge-office { border: 1px solid var(--primary); color: var(--primary); padding: 5px 12px; border-radius: 6px; font-weight: 800; font-size: 10px; box-shadow: inset 0 0 5px var(--primary); }
+
+        /* Bảng hiển thị */
+        .table-container { overflow-y: auto; max-height: 300px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
         table { width: 100%; border-collapse: collapse; }
-        th { padding: 15px; text-align: left; background: rgba(0,0,0,0.5); color: var(--text-muted); font-size: 11px; text-transform: uppercase; position: sticky; top: 0; }
-        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+        th { padding: 18px; text-align: left; color: var(--primary); font-family: 'Orbitron', sans-serif; font-size: 10px; background: rgba(0,242,254,0.05); position: sticky; top: 0; }
+        td { padding: 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 500; }
+        
+        #clock { float: right; font-size: 22px; color: var(--primary); font-family: 'Orbitron', sans-serif; text-shadow: 0 0 15px var(--primary); }
+        #logs { background: rgba(0,0,0,0.5); color: var(--success); font-family: 'Consolas', monospace; padding: 20px; border-radius: 15px; flex: 1; overflow-y: auto; border: 1px solid var(--border); }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="card">
-            <h2>LỰA CHỌN NHÂN VIÊN</h2>
+            <h2><i class="glow-text">●</i> QUẢN TRỊ VIÊN</h2>
             <select id="staffSelect"></select>
-            <label style="font-size: 10px; color: var(--text-muted); display: block; margin-bottom: 8px; font-weight:bold;">ĐỊA ĐIỂM HỢP LỆ</label>
+            <label style="font-size: 11px; color: var(--primary); margin-bottom: 8px; display: block; font-weight: bold; letter-spacing: 1px;">ĐỊA ĐIỂM HOẠT ĐỘNG</label>
             <select id="locSelect"></select>
-            <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; border: 1px dashed var(--border); font-family: monospace; font-size: 12px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>IP:</span> <span id="lblIP" style="color:var(--primary); font-weight:bold;">...</span></div>
-                <div style="display:flex; justify-content:space-between;"><span>THIẾT BỊ:</span> <span id="lblDevice" style="color:var(--primary); font-weight:bold;">...</span></div>
+            <div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px; border: 1px solid var(--border); font-size: 13px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>MẠNG (IP):</span> <span id="lblIP" class="glow-text">...</span></div>
+                <div style="display:flex; justify-content:space-between;"><span>THIẾT BỊ:</span> <span id="lblDevice" class="glow-text">...</span></div>
             </div>
         </div>
         <div class="card">
-            <h2>CHẤM CÔNG THỦ CÔNG</h2>
-            <div class="btn-group"> <button onclick="manual('HÀNH CHÍNH')" class="btn-office">HÀNH CHÍNH</button>
+            <h2>GỬI LỆNH TỨC THÌ</h2>
+            <div class="btn-flex-row"> <button onclick="manual('HÀNH CHÍNH')" class="btn-office">HÀNH CHÍNH</button>
                 <button onclick="manual('OT')" class="btn-ot">TĂNG CA (OT)</button>
             </div>
         </div>
         <div class="card">
-            <h2>DỮ LIỆU CLOUD</h2>
-            <div id="syncStat" style="font-size: 11px; margin-bottom: 12px; color:var(--text-muted);">Đang kết nối GitHub...</div>
-            <button onclick="fetchCloudData()" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border);">LÀM MỚI DỮ LIỆU</button>
+            <h2>TRẠNG THÁI CLOUD</h2>
+            <div id="syncStat" style="font-size: 12px; margin-bottom: 15px;">Kết nối hệ thống...</div>
+            <button onclick="fetchCloudData()" style="background: rgba(0, 242, 254, 0.1); border: 1px solid var(--primary); color: var(--primary);">LÀM MỚI DỮ LIỆU</button>
         </div>
     </div>
     <div class="main-content">
         <div class="card" style="max-height:55%; display:flex; flex-direction:column;">
-            <h2>HẸN GIỜ CHẤM CÔNG <span id="clock">00:00:00</span></h2>
-            <div style="display:flex; gap:12px; align-items:flex-end; background:rgba(0,0,0,0.4); padding:15px; border-radius:15px;">
-                <div style="flex:1;"><label style="font-size:10px; margin-bottom:5px;">GIỜ HẸN</label><input type="datetime-local" id="sTime"></div>
-                <div style="flex:0.6;"><label style="font-size:10px; margin-bottom:5px;">LOẠI</label><select id="sType"><option value="HÀNH CHÍNH">HÀNH CHÍNH</option><option value="OT">OT</option></select></div>
-                <div style="flex:1;"><label style="font-size:10px; margin-bottom:5px;">NHÂN VIÊN</label><select id="sStaff"></select></div>
-                <div style="flex:1.2;"><label style="font-size:10px; margin-bottom:5px;">ĐỊA ĐIỂM</label><select id="sLoc"></select></div>
-                <button onclick="addSched()" style="flex:0.8; background:linear-gradient(90deg, #8E2DE2, #4A00E0); height:48px; box-shadow: 0 4px 15px rgba(142, 45, 226, 0.4);">THÊM LỊCH</button>
+            <h2>HẸN GIỜ HỆ THỐNG <span id="clock">00:00:00</span></h2>
+            <div style="display:flex; gap:15px; align-items:flex-end; background:rgba(0,0,0,0.5); padding:20px; border-radius:15px; border: 1px solid var(--border);">
+                <div style="flex:1.2;"><label style="font-size:10px; color:var(--primary); margin-bottom:5px; display:block;">THỜI ĐIỂM (CẦN XÁC NHẬN)</label><input type="datetime-local" id="sTime"></div>
+                <div style="flex:0.6;"><label style="font-size:10px; color:var(--primary); margin-bottom:5px; display:block;">LOẠI</label><select id="sType" style="margin-bottom:0;"><option value="HÀNH CHÍNH">HÀNH CHÍNH</option><option value="OT">OT</option></select></div>
+                <div style="flex:1;"><label style="font-size:10px; color:var(--primary); margin-bottom:5px; display:block;">NHÂN VIÊN</label><select id="sStaff" style="margin-bottom:0;"></select></div>
+                <div style="flex:1.2;"><label style="font-size:10px; color:var(--primary); margin-bottom:5px; display:block;">ĐỊA ĐIỂM</label><select id="sLoc" style="margin-bottom:0;"></select></div>
+                <button onclick="confirmAndAdd()" style="flex:0.8; background:linear-gradient(135deg, #8E2DE2, #4A00E0); height:50px; box-shadow: 0 0 20px rgba(142, 45, 226, 0.5);">THÊM LỊCH</button>
             </div>
             <div class="table-container">
-                <table><thead><tr><th>THỜI GIAN</th><th>LOẠI</th><th>NHÂN VIÊN</th><th>ĐỊA ĐIỂM</th><th>TRẠNG THÁI</th><th></th></tr></thead><tbody id="schedBody"></tbody></table>
+                <table><thead><tr><th>THỜI GIAN</th><th>CHẾ ĐỘ</th><th>NHÂN VIÊN</th><th>ĐỊA ĐIỂM</th><th>TÌNH TRẠNG</th><th>THAO TÁC</th></tr></thead><tbody id="schedBody"></tbody></table>
             </div>
         </div>
         <div class="card" style="flex:1; display:flex; flex-direction:column; min-height:0;">
-            <h2>NHẬT KÝ HỆ THỐNG</h2>
-            <div id="logs">> Hệ thống sẵn sàng!</div>
+            <h2>NHẬT KÝ TERMINAL</h2>
+            <div id="logs">> Megaads v51 ready for deployment...</div>
         </div>
     </div>
 
@@ -102,11 +106,11 @@
                 const data = await res.json();
                 staffs = data.staffs; locs = data.locs;
                 renderStaffs(); updateLocs(); updateSchedLocs();
-                document.getElementById('syncStat').innerHTML = `<span style="color:var(--success);">● Cloud Sync: ${new Date().toLocaleTimeString()}</span>`;
-                log("Đã cập nhật dữ liệu từ Server.");
+                document.getElementById('syncStat').innerHTML = `<span class="glow-text">● ONLINE: ${new Date().toLocaleTimeString()}</span>`;
+                log("Hệ thống đã đồng bộ thành công với Cloud.");
             } catch (e) { 
-                document.getElementById('syncStat').innerHTML = `<span style="color:var(--danger);">● Lỗi đồng bộ</span>`;
-                log("Lỗi: Không tải được data.json.", "#ff5858"); 
+                document.getElementById('syncStat').innerHTML = `<span style="color:var(--danger);">● OFFLINE: Lỗi kết nối</span>`;
+                log("Cảnh báo: Không thể tải dữ liệu từ máy chủ.", "#ff5858"); 
             }
         }
 
@@ -139,25 +143,36 @@
             if(s) { document.getElementById('lblIP').innerText = s.ip; document.getElementById('lblDevice').innerText = s.device; }
         }
 
+        function confirmAndAdd() {
+            const t = document.getElementById('sTime').value;
+            if(!t) return alert("Hệ thống yêu cầu nhập thời gian!");
+            
+            // Logic nút đồng ý giả lập thông báo xác nhận
+            const timeStr = new Date(t).toLocaleString('vi-VN');
+            if(confirm(`XÁC NHẬN HẸN GIỜ: \nThời gian: ${timeStr} \nNhân viên: ${document.getElementById('sStaff').selectedOptions[0].text}`)) {
+                addSched();
+            }
+        }
+
         function addSched() {
-            const t = document.getElementById('sTime').value; if(!t) return alert("Vui lòng chọn ngày giờ!");
+            const t = document.getElementById('sTime').value;
             const sS = document.getElementById('sStaff'), lS = document.getElementById('sLoc');
-            scheds.push({ id: Date.now(), time: t, type: document.getElementById('sType').value, sIdx: sS.value, sName: sS.options[sS.selectedIndex].text, lIdx: lS.value, lName: lS.options[lS.selectedIndex].text, exec: false, st: "ĐANG ĐỢI" });
+            scheds.push({ id: Date.now(), time: t, type: document.getElementById('sType').value, sIdx: sS.value, sName: sS.options[sS.selectedIndex].text, lIdx: lS.value, lName: lS.options[lS.selectedIndex].text, exec: false, st: "CHỜ LỆNH" });
             localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched();
-            log(`Đã lên lịch cho ${sS.options[sS.selectedIndex].text}`);
+            log(`Lên lịch thành công cho [${sS.options[sS.selectedIndex].text}]`);
         }
 
         function renderSched() {
             const b = document.getElementById('schedBody'); b.innerHTML = '';
             scheds.sort((a,b) => new Date(a.time) - new Date(b.time)).forEach(s => {
-                const tr = document.createElement('tr'); if(s.exec) tr.style.opacity = "0.4";
+                const tr = document.createElement('tr'); if(s.exec) tr.style.opacity = "0.3";
                 const badge = s.type == 'OT' ? 'badge-ot' : 'badge-office';
-                tr.innerHTML = `<td>${new Date(s.time).toLocaleString('vi-VN')}</td><td><span class="${badge}">${s.type}</span></td><td>${s.sName}</td><td>${s.lName}</td><td style="font-weight:bold; color:var(--primary);">${s.st}</td><td style="text-align:right"><button class="btn-del-item" onclick="delS(${s.id})">XÓA</button></td>`;
+                tr.innerHTML = `<td>${new Date(s.time).toLocaleString('vi-VN')}</td><td><span class="${badge}">${s.type}</span></td><td>${s.sName}</td><td>${s.lName}</td><td class="glow-text">${s.st}</td><td style="text-align:right"><button onclick="delS(${s.id})" style="background:#ff585822; color:var(--danger); border:1px solid var(--danger); width:auto; padding:5px 15px;">HỦY</button></td>`;
                 b.appendChild(tr);
             });
         }
 
-        window.delS = (id) => { if(confirm("Xóa lịch này?")) { scheds = scheds.filter(x => x.id != id); localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched(); }};
+        window.delS = (id) => { if(confirm("Hủy bỏ lịch hẹn này?")) { scheds = scheds.filter(x => x.id != id); localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched(); }};
 
         function startClock() {
             setInterval(() => {
@@ -166,24 +181,24 @@
                     if(!s.exec) {
                         const diff = now - new Date(s.time);
                         if(diff >= 0 && diff < 60000) {
-                            trigger(s.type, staffs[s.sIdx], locs[s.lIdx]); s.exec = true; s.st = "HOÀN TẤT";
+                            trigger(s.type, staffs[s.sIdx], locs[s.lIdx]); s.exec = true; s.st = "XONG";
                             localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched();
-                        } else if (diff >= 60000) { s.exec = true; s.st = "BỎ QUA"; localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched(); }
+                        } else if (diff >= 60000) { s.exec = true; s.st = "TRỄ"; localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched(); }
                     }
                 });
             }, 2000);
         }
 
         async function trigger(type, st, lc) {
-            log(`Đang thực thi [${type}] cho ${st.name}...`);
+            log(`Đang truyền tin [${type}] tới server cho ${st.name}...`);
             try {
                 const res = await fetch(type == 'OT' ? API_OT : API_OFFICE, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ staff_id: st.id, location_data: { lat: lc.lat, long: lc.lng, ip: st.ip, location_name: lc.name } }) });
-                const d = await res.json(); log(`[Xong] ${d.message || 'Thành công'}`);
-            } catch (e) { log("Lỗi: Kiểm tra CORS!", "#ff5858"); }
+                const d = await res.json(); log(`Giao dịch hoàn tất: ${d.message || 'SUCCESS'}`);
+            } catch (e) { log("LỖI TRUYỀN TIN: Cần kiểm tra CORS hoặc Internet.", "#ff5858"); }
         }
 
         function manual(t) { trigger(t, staffs[document.getElementById('staffSelect').value], locs[document.getElementById('locSelect').value]); }
-        function log(m, c = "var(--success)") { const d = document.createElement('div'); d.style.color = (c=="var(--success)" ? "var(--success)" : c); d.innerText = `> ${new Date().toLocaleTimeString()} ${m}`; document.getElementById('logs').prepend(d); }
+        function log(m, c = "var(--success)") { const d = document.createElement('div'); d.style.color = (c=="var(--success)" ? "var(--success)" : c); d.innerText = `>> [SYS_LOG] ${new Date().toLocaleTimeString()}: ${m}`; document.getElementById('logs').prepend(d); }
     </script>
 </body>
 </html>
