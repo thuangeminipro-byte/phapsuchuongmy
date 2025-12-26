@@ -3,105 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Megaads Cloud Tool v49 - Optimized</title>
+    <title>Megaads Cloud v53 - GPS Enhanced</title>
     <style>
-        :root { --primary: #00f2fe; --secondary: #4facfe; --accent-ot: #fa709a; --accent-ot-end: #fee140; --success: #43e97b; --danger: #ff5858; --text: #e0e6ed; --text-muted: #8ba0b6; --border: rgba(255,255,255,0.15); }
+        :root { --primary: #00f2fe; --secondary: #4facfe; --accent-ot: #fa709a; --accent-ot-end: #fee140; --success: #43e97b; --danger: #ff5858; --text: #e0e6ed; --border: rgba(0, 242, 254, 0.2); }
         
         body { 
-            margin: 0; padding: 20px; font-family: 'Segoe UI', Roboto, sans-serif; 
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); 
+            margin: 0; padding: 20px; font-family: 'Segoe UI', sans-serif; 
+            background: radial-gradient(circle at top, #1e1b4b, #0f0c29, #050517);
             color: var(--text); display: grid; grid-template-columns: 360px 1fr; gap: 25px; 
-            height: 100vh; box-sizing: border-box; overflow: hidden; 
+            height: 100vh; box-sizing: border-box; overflow: hidden;
         }
 
-        /* Tối ưu cho màn hình nhỏ (Mobile) */
-        @media (max-width: 900px) {
-            body { grid-template-columns: 1fr; overflow-y: auto; height: auto; padding: 10px; }
+        @media (max-width: 1000px) {
+            body { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
             .sidebar, .main-content { overflow-y: visible; height: auto; }
-            .card { margin-bottom: 15px; }
-            .sched-controls { flex-direction: column !important; align-items: stretch !important; }
-            .btn-row { gap: 15px !important; } /* Nới rộng khoảng cách nút trên mobile */
         }
 
-        .sidebar, .main-content { display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
-        .main-content { overflow: hidden; }
-        
         .card { 
-            background: rgba(255, 255, 255, 0.03); padding: 20px; border-radius: 15px; 
-            border: 1px solid var(--border); backdrop-filter: blur(15px); 
-            position: relative; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); 
+            background: rgba(255, 255, 255, 0.03); padding: 22px; border-radius: 18px; 
+            border: 1px solid var(--border); backdrop-filter: blur(12px); position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 15px 15px 0 0; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 18px 18px 0 0; }
         
-        h2 { margin: 0 0 15px 0; font-size: 13px; text-transform: uppercase; color: var(--primary); letter-spacing: 1px; }
-        label { font-size: 10px; color: var(--text-muted); display: block; margin-bottom: 5px; }
+        h2 { margin: 0 0 18px 0; font-size: 13px; text-transform: uppercase; color: var(--primary); letter-spacing: 2px; font-weight: 700; }
+        label { font-size: 10px; color: var(--primary); margin-bottom: 6px; display: block; font-weight: 600; opacity: 0.8; }
         
-        select, input { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); color: #fff; border-radius: 8px; font-size: 13px; margin-bottom: 10px; color-scheme: dark; box-sizing: border-box; }
-        
-        button { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-size: 11px; color: white; text-transform: uppercase; }
-        button:active { transform: scale(0.98); }
+        select, input { 
+            width: 100%; padding: 13px; background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border); 
+            color: #fff; border-radius: 10px; font-size: 14px; margin-bottom: 12px; outline: none; transition: 0.3s; color-scheme: dark;
+        }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 242, 254, 0.3); }
 
-        /* Nới rộng khoảng cách 2 nút thủ công */
-        .btn-row { display: flex; gap: 20px; } 
-        .btn-office { background: linear-gradient(90deg, var(--secondary), var(--primary)); }
-        .btn-ot { background: linear-gradient(90deg, var(--accent-ot), var(--accent-ot-end)); }
+        /* Căn chỉnh các nút không bị lệch */
+        .btn-row { display: flex; gap: 18px; margin-top: 5px; align-items: center; }
+        button { 
+            width: 100%; padding: 14px; border: none; border-radius: 10px; 
+            font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 11px; color: white; text-transform: uppercase;
+        }
+        button:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn-office { background: linear-gradient(135deg, var(--secondary), var(--primary)); }
+        .btn-ot { background: linear-gradient(135deg, var(--accent-ot), var(--accent-ot-end)); }
         
-        .badge-office { background: rgba(0, 242, 254, 0.2); color: var(--primary); border: 1px solid var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: bold; }
-        .badge-ot { background: linear-gradient(90deg, var(--accent-ot), var(--accent-ot-end)); color: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: bold; }
+        .badge { padding: 5px 12px; border-radius: 6px; font-size: 10px; font-weight: 800; display: inline-block; }
+        .badge-office { border: 1px solid var(--primary); color: var(--primary); box-shadow: inset 0 0 5px var(--primary); }
+        .badge-ot { background: linear-gradient(90deg, var(--accent-ot), var(--accent-ot-end)); color: #000; }
+
+        .table-container { overflow-x: auto; background: rgba(0,0,0,0.2); border-radius: 12px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th { padding: 15px; text-align: left; font-size: 11px; color: var(--primary); background: rgba(0,0,0,0.4); text-transform: uppercase; position: sticky; top: 0; }
+        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+
+        /* Khung GPS & Info */
+        .info-box { font-family: 'Consolas', monospace; font-size: 11px; line-height: 1.8; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; border: 1px dashed var(--border); }
+        .info-box span { color: var(--primary); font-weight: bold; float: right; }
         
-        .btn-del-item { background: linear-gradient(90deg, #ff5858, #f857a6) !important; color: white !important; border: none; padding: 6px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; width: auto; }
-        
-        #logs { background: rgba(0,0,0,0.5); color: var(--success); font-family: monospace; padding: 15px; border-radius: 10px; flex: 1; overflow-y: auto; font-size: 12px; border: 1px solid var(--border); min-height: 150px; }
-        #clock { float: right; font-size: 18px; color: var(--primary); font-family: monospace; font-weight: bold; }
-        
-        .table-container { overflow-x: auto; max-height: 250px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 600px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        th { background: rgba(0,0,0,0.4); position: sticky; top: 0; color: var(--text-muted); }
+        #clock { float: right; font-size: 20px; color: var(--primary); font-weight: bold; text-shadow: 0 0 10px var(--primary); }
+        #logs { background: rgba(0,0,0,0.5); color: var(--success); font-family: 'Consolas', monospace; padding: 20px; border-radius: 15px; flex: 1; overflow-y: auto; border: 1px solid var(--border); font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="card">
-            <h2>LỰA CHỌN NHÂN VIÊN</h2>
+            <h2>HỒ SƠ NHÂN VIÊN</h2>
             <select id="staffSelect"></select>
-            <label>ĐỊA ĐIỂM HỢP LỆ</label>
+            <label>ĐỊA ĐIỂM CHẤM CÔNG</label>
             <select id="locSelect"></select>
-            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border: 1px dashed var(--border); font-family: monospace; font-size: 11px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>IP:</span> <span id="lblIP" style="color:var(--primary);">...</span></div>
-                <div style="display:flex; justify-content:space-between;"><span>DEVICE:</span> <span id="lblDevice" style="color:var(--primary);">...</span></div>
+            <div class="info-box">
+                IP MẠNG: <span id="lblIP">...</span><br>
+                THIẾT BỊ: <span id="lblDevice">...</span><br>
+                VĨ ĐỘ (LAT): <span id="lblLat">...</span><br>
+                KINH ĐỘ (LNG): <span id="lblLng">...</span>
             </div>
         </div>
         <div class="card">
-            <h2>CHẤM CÔNG THỦ CÔNG</h2>
+            <h2>GỬI LỆNH TRỰC TIẾP</h2>
             <div class="btn-row">
                 <button onclick="manual('HÀNH CHÍNH')" class="btn-office">HÀNH CHÍNH</button>
-                <button onclick="manual('OT')" class="btn-ot">TĂNG CA (OT)</button>
+                <button onclick="manual('OT')" class="btn-ot">TĂNG CA</button>
             </div>
         </div>
         <div class="card">
             <h2>ĐỒNG BỘ DỮ LIỆU</h2>
-            <div id="syncStat" style="font-size: 11px; margin-bottom: 10px;">Đang tải từ GitHub...</div>
-            <button onclick="fetchCloudData()" style="background: rgba(255,255,255,0.1);">LÀM MỚI DỮ LIỆU</button>
+            <div id="syncStat" style="font-size: 11px; margin-bottom: 12px;">Đang kết nối Cloud...</div>
+            <button onclick="fetchCloudData()" style="background: rgba(0,242,254,0.1); border: 1px solid var(--primary); color: var(--primary);">LÀM MỚI DỮ LIỆU</button>
         </div>
     </div>
     <div class="main-content">
-        <div class="card" style="max-height:50%; display:flex; flex-direction:column;">
-            <h2>HẸN GIỜ CHẤM CÔNG <span id="clock">00:00:00</span></h2>
-            <div class="sched-controls" style="display:flex; gap:10px; align-items:flex-end; background:rgba(0,0,0,0.3); padding:10px; border-radius:10px;">
-                <div style="flex:1;"><label>THỜI GIAN</label><input type="datetime-local" id="sTime"></div>
-                <div style="flex:0.5;"><label>LOẠI</label><select id="sType"><option value="HÀNH CHÍNH">HÀNH CHÍNH</option><option value="OT">OT</option></select></div>
-                <div style="flex:1;"><label>NHÂN VIÊN</label><select id="sStaff"></select></div>
-                <div style="flex:1.2;"><label>ĐỊA ĐIỂM</label><select id="sLoc"></select></div>
-                <button onclick="addSched()" style="flex:0.8; background:linear-gradient(90deg, #8E2DE2, #4A00E0); height:44px;">THÊM LỊCH</button>
+        <div class="card" style="display:flex; flex-direction:column; max-height:55%;">
+            <h2>BẢNG HẸN GIỜ <span id="clock">00:00:00</span></h2>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; background:rgba(0,0,0,0.4); padding:18px; border-radius:15px; align-items: center;">
+                <div><label>THỜI GIAN</label><input type="datetime-local" id="sTime"></div>
+                <div><label>CHẾ ĐỘ</label><select id="sType" style="margin-bottom:0;"><option value="HÀNH CHÍNH">HÀNH CHÍNH</option><option value="OT">OT</option></select></div>
+                <div><label>NHÂN VIÊN</label><select id="sStaff" style="margin-bottom:0;"></select></div>
+                <div><label>ĐỊA ĐIỂM</label><select id="sLoc" style="margin-bottom:0;"></select></div>
+                <button onclick="confirmAndAdd()" style="background:linear-gradient(90deg, #8E2DE2, #4A00E0); height:48px; box-shadow: 0 4px 15px rgba(142, 45, 226, 0.4);">THÊM LỊCH</button>
             </div>
             <div class="table-container">
-                <table><thead><tr><th>GIỜ HẸN</th><th>LOẠI</th><th>TÊN</th><th>ĐỊA ĐIỂM</th><th>TRẠNG THÁI</th><th></th></tr></thead><tbody id="schedBody"></tbody></table>
+                <table><thead><tr><th>GIỜ HẸN</th><th>LOẠI</th><th>NHÂN VIÊN</th><th>ĐỊA ĐIỂM</th><th>GPS (LAT, LNG)</th><th>TRẠNG THÁI</th><th></th></tr></thead><tbody id="schedBody"></tbody></table>
             </div>
         </div>
         <div class="card" style="flex:1; display:flex; flex-direction:column; min-height:0;">
-            <h2>NHẬT KÝ HỆ THỐNG (TERMINAL)</h2>
-            <div id="logs">> Megaads Cloud v49 Optimized.</div>
+            <h2>NHẬT KÝ HỆ THỐNG</h2>
+            <div id="logs">> Megaads v53 ready. GPS tracking enabled.</div>
         </div>
     </div>
 
@@ -118,50 +122,49 @@
                 const data = await res.json();
                 staffs = data.staffs; locs = data.locs;
                 renderStaffs(); updateLocs(); updateSchedLocs();
-                document.getElementById('syncStat').innerHTML = `<span style="color:var(--success);">● Đồng bộ Cloud thành công</span>`;
-                log("Đã cập nhật dữ liệu mới nhất từ GitHub.");
-            } catch (e) { 
-                document.getElementById('syncStat').innerHTML = `<span style="color:var(--danger);">● Lỗi kết nối GitHub</span>`;
-                log("Lỗi: Không thể tải data.json.", "#ff5858"); 
-            }
+                document.getElementById('syncStat').innerHTML = `<span style="color:var(--success);">● Cloud: ${new Date().toLocaleTimeString()}</span>`;
+            } catch (e) { log("Lỗi đồng bộ dữ liệu!", "#ff5858"); }
         }
 
         window.onload = () => { fetchCloudData(); renderSched(); startClock(); document.getElementById('staffSelect').onchange = updateLocs; document.getElementById('sStaff').onchange = updateSchedLocs; document.getElementById('locSelect').onchange = updateInfo; };
 
-        function renderStaffs() {
-            const h = staffs.map((s, i) => `<option value="${i}">${s.name} (#${s.id})</option>`).join('');
-            document.getElementById('staffSelect').innerHTML = h; document.getElementById('sStaff').innerHTML = h;
+        function renderStaffs() { const h = staffs.map((s, i) => `<option value="${i}">${s.name}</option>`).join(''); document.getElementById('staffSelect').innerHTML = h; document.getElementById('sStaff').innerHTML = h; }
+        
+        function updateLocs() { 
+            const s = staffs[document.getElementById('staffSelect').value]; if(!s) return; 
+            document.getElementById('locSelect').innerHTML = locs.filter(l => l.owner == "all" || l.owner == s.id).map((l, i) => `<option value="${i}">${l.name}</option>`).join(''); 
+            updateInfo(); 
         }
 
-        function updateLocs() {
-            const s = staffs[document.getElementById('staffSelect').value]; if(!s) return;
-            document.getElementById('locSelect').innerHTML = locs.filter(l => l.owner == "all" || l.owner == s.id).map((l, i) => `<option value="${i}">${l.name}</option>`).join('');
-            updateInfo();
+        function updateSchedLocs() { 
+            const s = staffs[document.getElementById('sStaff').value]; if(!s) return; 
+            document.getElementById('sLoc').innerHTML = locs.filter(l => l.owner == "all" || l.owner == s.id).map((l, i) => `<option value="${i}">${l.name}</option>`).join(''); 
         }
 
-        function updateSchedLocs() {
-            const s = staffs[document.getElementById('sStaff').value]; if(!s) return;
-            document.getElementById('sLoc').innerHTML = locs.filter(l => l.owner == "all" || l.owner == s.id).map((l, i) => `<option value="${i}">${l.name}</option>`).join('');
-        }
-
-        function updateInfo() {
-            const s = staffs[document.getElementById('staffSelect').value];
+        function updateInfo() { 
+            const s = staffs[document.getElementById('staffSelect').value]; 
+            const l = locs[document.getElementById('locSelect').value];
             if(s) { document.getElementById('lblIP').innerText = s.ip; document.getElementById('lblDevice').innerText = s.device; }
+            if(l) { document.getElementById('lblLat').innerText = l.lat; document.getElementById('lblLng').innerText = l.lng; }
         }
 
-        function addSched() {
-            const t = document.getElementById('sTime').value; if(!t) return alert("Chọn giờ!");
+        function confirmAndAdd() {
+            const t = document.getElementById('sTime').value;
+            if(!t) return alert("Hệ thống yêu cầu nhập thời gian!");
             const sS = document.getElementById('sStaff'), lS = document.getElementById('sLoc');
-            scheds.push({ id: Date.now(), time: t, type: document.getElementById('sType').value, sIdx: sS.value, sName: sS.options[sS.selectedIndex].text, lIdx: lS.value, lName: lS.options[lS.selectedIndex].text, exec: false, st: "ĐANG ĐỢI" });
-            localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched();
+            const locObj = locs[lS.value];
+            if(confirm(`Xác nhận đặt lịch cho ${sS.options[sS.selectedIndex].text}?`)) {
+                scheds.push({ id: Date.now(), time: t, type: document.getElementById('sType').value, sIdx: sS.value, sName: sS.options[sS.selectedIndex].text, lIdx: lS.value, lName: lS.options[lS.selectedIndex].text, lat: locObj.lat, lng: locObj.lng, exec: false, st: "CHỜ" });
+                localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched();
+            }
         }
 
         function renderSched() {
             const b = document.getElementById('schedBody'); b.innerHTML = '';
             scheds.sort((a,b) => new Date(a.time) - new Date(b.time)).forEach(s => {
-                const tr = document.createElement('tr'); if(s.exec) tr.style.opacity = "0.5";
+                const tr = document.createElement('tr'); if(s.exec) tr.style.opacity = "0.4";
                 const badge = s.type == 'OT' ? 'badge-ot' : 'badge-office';
-                tr.innerHTML = `<td>${new Date(s.time).toLocaleString('vi-VN')}</td><td><span class="${badge}">${s.type}</span></td><td>${s.sName}</td><td>${s.lName}</td><td>${s.st}</td><td style="text-align:right"><button class="btn-del-item" onclick="delS(${s.id})">XÓA</button></td>`;
+                tr.innerHTML = `<td>${new Date(s.time).toLocaleString('vi-VN')}</td><td><span class="${badge}">${s.type}</span></td><td>${s.sName}</td><td>${s.lName}</td><td style="color:var(--primary); font-family:monospace;">${s.lat}, ${s.lng}</td><td>${s.st}</td><td style="text-align:right"><button onclick="delS(${s.id})" style="background:rgba(255,88,88,0.2); color:var(--danger); width:auto; padding:5px 12px; border:1px solid var(--danger);">X</button></td>`;
                 b.appendChild(tr);
             });
         }
@@ -175,22 +178,21 @@
                     if(!s.exec) {
                         const diff = now - new Date(s.time);
                         if(diff >= 0 && diff < 60000) { trigger(s.type, staffs[s.sIdx], locs[s.lIdx]); s.exec = true; s.st = "XONG"; localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched(); }
-                        else if (diff >= 60000) { s.exec = true; s.st = "BỎ QUA"; localStorage.setItem('schedules', JSON.stringify(scheds)); renderSched(); }
                     }
                 });
             }, 2000);
         }
 
         async function trigger(type, st, lc) {
-            log(`Gửi lệnh [${type}] cho ${st.name}...`);
+            log(`Gửi lệnh [${type}] cho ${st.name} tại GPS: ${lc.lat}, ${lc.lng}...`);
             try {
                 const res = await fetch(type == 'OT' ? API_OT : API_OFFICE, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ staff_id: st.id, location_data: { lat: lc.lat, long: lc.lng, ip: st.ip, location_name: lc.name } }) });
-                const d = await res.json(); log(`[${res.status}] ${d.message || 'Thành công'}`);
-            } catch (e) { log("Lỗi: Kiểm tra Allow CORS!", "#ff5858"); }
+                const d = await res.json(); log(`[Xong] ${d.message || 'Thành công'}`);
+            } catch (e) { log("Lỗi CORS!", "#ff5858"); }
         }
 
         function manual(t) { trigger(t, staffs[document.getElementById('staffSelect').value], locs[document.getElementById('locSelect').value]); }
-        function log(m, c = "var(--success)") { const d = document.createElement('div'); d.style.color = (c=="var(--success)" ? "var(--success)" : c); d.innerText = `> ${new Date().toLocaleTimeString()} ${m}`; document.getElementById('logs').prepend(d); }
+        function log(m, c = "var(--success)") { const d = document.createElement('div'); d.style.color = (c=="var(--success)" ? "var(--success)" : c); d.innerText = `> ${new Date().toLocaleTimeString()}: ${m}`; document.getElementById('logs').prepend(d); }
     </script>
 </body>
 </html>
