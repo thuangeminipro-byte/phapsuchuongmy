@@ -42,6 +42,16 @@
         .btn-ot { background: linear-gradient(90deg, var(--accent-ot), var(--accent-ot-end)); }
         .btn-save { background: linear-gradient(90deg, #38ef7d, #11998e); margin-top: 5px; }
         .btn-del { background: rgba(255, 88, 88, 0.2); color: var(--danger); width: 35px; border: 1px solid var(--danger); margin-left: 5px; height: 40px; }
+        /* Sửa riêng cho nút XÓA LỊCH trong bảng hẹn giờ */
+        .btn-del-item {
+    background: linear-gradient(90deg, #ff5858, #f857a6) !important;
+    color: white !important;
+    padding: 5px 15px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 88, 88, 0.3);
         .btn-sched { background: linear-gradient(90deg, #8E2DE2, #4A00E0); flex: 1; height: 44px; margin-bottom: 10px; }
         .info-panel { background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border: 1px dashed var(--border); font-family: monospace; font-size: 11px; }
         .info-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
@@ -112,7 +122,7 @@
         const PASS = "261198";
         
         const D_STAFF = [{name:"Toàn", id:950, ip:"104.28.222.44", device:"iPhone 15"}, {name:"Hiếu", id:1132, ip:"103.216.117.204", device:"iPhone X"}];
-        const D_LOC = [{name:"Megaads HQ", lat:20.999502, lng:105.802828, owner:"all"}, {name:"Cty Việt Dũng", lat:20.9452065, lng:105.7577384, owner:950}, {name:"Nhà Hiếu", lat:20.8897442, lng:105.7468539, owner:1132}];
+        const D_LOC = [{name:"Megaads - 6 Le Van Thiem", lat:20.999502, lng:105.802828, owner:"all"}, {name:"Công ty TNHH Đầu tư Du lịch Thương mại Việt Dũng, Thôn Chiến, Đức Thượng, Hoài Đức, Hà Nội", lat:20.9452065, lng:105.7577384, owner:950}, {name:"51 Ngõ 750 Kim Giang, Thanh Liệt, Thanh Trì, Hà Nội", lat:20.8897442, lng:105.7468539, owner:1132}];
         
         let staffs = JSON.parse(localStorage.getItem('staffs')) || D_STAFF;
         let locs = JSON.parse(localStorage.getItem('locs')) || D_LOC;
@@ -199,7 +209,7 @@
                     <td>${s.staffName}</td>
                     <td>${s.locName}</td>
                     <td>${s.st}</td>
-                    <td style="text-align:right"><button class="btn-del-item" style="height:30px">✕</button></td>
+                    <td style="text-align:right"><button class="btn-del-item" style="height:30px">XÓA LỊCH</button></td>
                 `;
                 const btn = tr.querySelector('.btn-del-item');
                 btn.onclick = () => { if(confirm("Xóa lịch này?")) { scheds = scheds.filter(x => x.id != s.id); save(); renderSched(); } };
@@ -290,3 +300,4 @@
     </script>
 </body>
 </html>
+
