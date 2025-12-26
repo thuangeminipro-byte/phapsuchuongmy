@@ -1,4 +1,5 @@
 {
-  "staffs": [{"name":"Toàn", "id":950, "ip":"104.28.222.44", "device":"iPhone 15"}],
-  "locs": [{"name":"Megaads - 6 Le Van Thiem", "lat":20.999502, "lng":105.802828, "owner":"all"}]
+  "staffs": [{"name":"Hiếu", "id":1132, "ip":"104.28.222.44", "device":"iPhone X"}],
+  "locs": [{"name":"Megaads - 6 Le Van Thiem", "lat":20.999502, "lng":105.802828, "owner":"all"}],
+  "locs": [{"name":"51 Ngõ 750 Kim Giang, Thanh Liệt, Thanh Trì, Hà Nội", "lat":20.8897442, "lng":105.7468539, "owner":"all"}]
 }
