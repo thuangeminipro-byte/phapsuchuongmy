@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>T98 Auto Tool</title>
+    <title>T98 Tool v44</title>
     <style>
         :root { 
             --primary: #00f2fe; --secondary: #4facfe; 
@@ -80,7 +80,7 @@
             <input type="text" id="newName" placeholder="Tên nhân viên mới">
             <input type="number" id="newId" placeholder="ID (950, 1132...)">
             <button id="addStaffBtn" class="btn-save">THÊM NHÂN VIÊN</button>
-            <hr style="border:0.5px dashed var(--border); margin:15px 0;">
+            <hr style="border:0.5px dashed var(--border); margin: 15px 0;">
             <input type="text" id="newLocName" placeholder="Tên địa điểm mới">
             <input type="text" id="newLat" placeholder="Vĩ độ (Lat)"><input type="text" id="newLng" placeholder="Kinh độ (Lng)">
             <button id="addLocBtn" class="btn-save">THÊM ĐỊA ĐIỂM</button>
@@ -102,7 +102,7 @@
         </div>
         <div class="card" style="flex:1; display:flex; flex-direction:column; min-height:0;">
             <h2>NHẬT KÝ HỆ THỐNG (TERMINAL)</h2>
-            <div id="logs">> Hệ thống sẵn sàng. Chú ý: Cần bật Allow CORS để chạy.</div>
+            <div id="logs">> Hệ thống sẵn sàng, cần bật Allow CORS để hoạt động.</div>
         </div>
     </div>
 
@@ -110,67 +110,183 @@
         const API_OFFICE = "https://hrm-api.megaads.vn/api/staff/send-finger-print";
         const API_OT = "https://hrm-api.megaads.vn/api/staff/time-keeping/overtime";
         const PASS = "261198";
-        // Dữ liệu mẫu tiếng Việt
-        const D_STAFF = [{name:"Toàn", id:950, ip:"104.28.222.44", device:"iPhone 15"}, {name:"Hiếu", id:1132, ip:"103.216.117.204", device:"iPhone X"}];
-        const D_LOC = [{name:"Megaads - 6 Le Van Thiem", lat:20.999502, lng:105.802828, owner:"all"}, {name:"Công ty TNHH Đầu tư Du lịch Thương mại Việt Dũng, Thôn Chiến, Đức Thượng, Hoài Đức, Hà Nội", lat:20.9452065, lng:105.7577384, owner:950}, {name:"51 Ngõ 750 Kim Giang, Thanh Liệt, Thanh Trì, Hà Nội", lat:20.8897442, lng:105.7468539, owner:1132}];
         
-        // Sử dụng localStorage để lưu dữ liệu trên web
+        const D_STAFF = [{name:"Toàn", id:950, ip:"104.28.222.44", device:"iPhone 15"}, {name:"Hiếu", id:1132, ip:"103.216.117.204", device:"iPhone X"}];
+        const D_LOC = [{name:"Megaads HQ", lat:20.999502, lng:105.802828, owner:"all"}, {name:"Cty Việt Dũng", lat:20.9452065, lng:105.7577384, owner:950}, {name:"Nhà Hiếu", lat:20.8897442, lng:105.7468539, owner:1132}];
+        
         let staffs = JSON.parse(localStorage.getItem('staffs')) || D_STAFF;
         let locs = JSON.parse(localStorage.getItem('locs')) || D_LOC;
         let scheds = JSON.parse(localStorage.getItem('schedules')) || [];
 
-        function save() { localStorage.setItem('staffs', JSON.stringify(staffs)); localStorage.setItem('locs', JSON.stringify(locs)); localStorage.setItem('schedules', JSON.stringify(scheds)); }
+        function save() { 
+            localStorage.setItem('staffs', JSON.stringify(staffs)); 
+            localStorage.setItem('locs', JSON.stringify(locs)); 
+            localStorage.setItem('schedules', JSON.stringify(scheds)); 
+        }
         
         window.onload = () => {
-            renderOpt('staffSelect', staffs); renderOpt('schedStaff', staffs); updateLocs(); updateSchedLocs(); renderSched(); startClock();
+            renderStaffOpts();
+            updateLocs(); 
+            updateSchedLocs(); 
+            renderSched(); 
+            startClock();
+
             document.getElementById('staffSelect').onchange = updateLocs;
             document.getElementById('schedStaff').onchange = updateSchedLocs;
             document.getElementById('locSelect').onchange = updateInfo;
-            document.getElementById('addStaffBtn').onclick = () => { if(prompt("Mật khẩu Admin:")===PASS) { staffs.push({name:document.getElementById('newName').value, id:document.getElementById('newId').value, ip:"103.216.117.202", device:"iPhone 15"}); save(); location.reload(); } };
-            document.getElementById('addLocBtn').onclick = () => { if(prompt("Mật khẩu Admin:")===PASS) { locs.push({name:document.getElementById('newLocName').value, lat:document.getElementById('newLat').value, lng:document.getElementById('newLng').value, owner:"all"}); save(); updateLocs(); } };
-            document.getElementById('addSchedBtn').onclick = () => { if(!document.getElementById('schedTime').value) return alert("Chọn thời gian!"); scheds.push({id:Date.now(), time:document.getElementById('schedTime').value, type:document.getElementById('schedType').value, sIdx:document.getElementById('schedStaff').value, lIdx:document.getElementById('schedLoc').value, exec:false, st:"ĐANG ĐỢI"}); save(); renderSched(); };
-            document.getElementById('btnOffice').onclick = () => trigger('OFFICE', staffs[document.getElementById('staffSelect').value], locs[document.getElementById('locSelect').value]);
-            document.getElementById('btnOT').onclick = () => trigger('OT', staffs[document.getElementById('staffSelect').value], locs[document.getElementById('locSelect').value]);
+            
+            document.getElementById('addStaffBtn').onclick = addStaff;
+            document.getElementById('addLocBtn').onclick = addLoc;
+            document.getElementById('delStaffBtn').onclick = delStaff;
+            document.getElementById('delLocBtn').onclick = delLoc;
+            document.getElementById('addSchedBtn').onclick = addSchedule;
+            
+            document.getElementById('btnOffice').onclick = () => manualCheck('OFFICE');
+            document.getElementById('btnOT').onclick = () => manualCheck('OT');
         };
 
-        function renderOpt(id, arr) { document.getElementById(id).innerHTML = arr.map((x, i) => `<option value="${i}">${x.name}</option>`).join(''); }
+        function renderStaffOpts() {
+            const html = staffs.map((s, i) => `<option value="${i}">${s.name} (#${s.id})</option>`).join('');
+            document.getElementById('staffSelect').innerHTML = html;
+            document.getElementById('schedStaff').innerHTML = html;
+        }
+
         function updateLocs() {
-            const sIdx = document.getElementById('staffSelect').value, s = staffs[sIdx], el = document.getElementById('locSelect');
-            if(!s) return; let h = "", first = -1; locs.forEach((l, i) => { if(l.owner=="all" || l.owner==s.id) { h += `<option value="${i}">${l.name}</option>`; if(l.owner!="all" && first==-1) first=i; } });
-            el.innerHTML = h; if(first!=-1) el.value = first; updateInfo();
+            const sIdx = document.getElementById('staffSelect').value;
+            const s = staffs[sIdx];
+            if(!s) return;
+            const el = document.getElementById('locSelect');
+            let h = "", first = -1;
+            locs.forEach((l, i) => {
+                if(l.owner == "all" || l.owner == s.id) {
+                    h += `<option value="${i}">${l.name}</option>`;
+                    if(l.owner != "all" && first == -1) first = i;
+                }
+            });
+            el.innerHTML = h;
+            if(first != -1) el.value = first;
+            updateInfo();
         }
+
         function updateSchedLocs() {
-            const sIdx = document.getElementById('schedStaff').value, s = staffs[sIdx], el = document.getElementById('schedLoc');
-            if(!s) return; el.innerHTML = locs.filter(l => l.owner=="all" || l.owner==s.id).map((l, i) => `<option value="${i}">${l.name}</option>`).join('');
+            const sIdx = document.getElementById('schedStaff').value;
+            const s = staffs[sIdx];
+            if(!s) return;
+            const el = document.getElementById('schedLoc');
+            let h = "";
+            locs.forEach((l, i) => {
+                if(l.owner == "all" || l.owner == s.id) h += `<option value="${i}">${l.name}</option>`;
+            });
+            el.innerHTML = h;
         }
+
         function updateInfo() {
-            const s = staffs[document.getElementById('staffSelect').value], l = locs[document.getElementById('locSelect').value];
+            const s = staffs[document.getElementById('staffSelect').value];
+            const l = locs[document.getElementById('locSelect').value];
             if(s) { document.getElementById('lblDevice').innerText = s.device; document.getElementById('lblIP').innerText = s.ip; }
             if(l) { document.getElementById('lblLat').innerText = l.lat; document.getElementById('lblLng').innerText = l.lng; }
         }
+
         function renderSched() {
             const b = document.getElementById('schedBody'); b.innerHTML = '';
+            scheds.sort((a,b) => new Date(a.time) - new Date(b.time));
             scheds.forEach(s => {
-                const tr = document.createElement('tr'); if(s.exec) tr.style.opacity="0.5";
-                tr.innerHTML = `<td>${new Date(s.time).toLocaleString('vi-VN')}</td><td>${s.type}</td><td>${staffs[s.sIdx]?.name}</td><td>${locs[s.lIdx]?.name}</td><td>${s.st}</td><td style="text-align:right"><button class="btn-del" style="height:30px" onclick="delS(${s.id})">✕</button></td>`;
+                const tr = document.createElement('tr');
+                if(s.exec) tr.style.opacity = "0.5";
+                tr.innerHTML = `
+                    <td>${new Date(s.time).toLocaleString('vi-VN')}</td>
+                    <td>${s.type}</td>
+                    <td>${s.staffName}</td>
+                    <td>${s.locName}</td>
+                    <td>${s.st}</td>
+                    <td style="text-align:right"><button class="btn-del-item" style="height:30px">✕</button></td>
+                `;
+                const btn = tr.querySelector('.btn-del-item');
+                btn.onclick = () => { if(confirm("Xóa lịch này?")) { scheds = scheds.filter(x => x.id != s.id); save(); renderSched(); } };
                 b.appendChild(tr);
             });
         }
-        window.delS = (id) => { if(confirm("Xóa lịch?")) { scheds = scheds.filter(x => x.id != id); save(); renderSched(); }};
+
+        function checkPass() { return prompt("Nhập mật khẩu Admin:") === PASS; }
+
+        function addStaff() {
+            if(!checkPass()) return alert("Sai mật khẩu!");
+            const n = document.getElementById('newName').value, id = document.getElementById('newId').value;
+            if(n && id) { staffs.push({name:n, id:id, ip:"103.216.117.202", device:"iPhone 15"}); save(); location.reload(); }
+        }
+
+        function addLoc() {
+            if(!checkPass()) return alert("Sai mật khẩu!");
+            const n = document.getElementById('newLocName').value, la = document.getElementById('newLat').value, ln = document.getElementById('newLng').value;
+            if(n && la && ln) { locs.push({name:n, lat:la, lng:ln, owner:"all"}); save(); updateLocs(); updateSchedLocs(); alert("Đã thêm địa điểm!"); }
+        }
+
+        function delStaff() {
+            if(!checkPass()) return alert("Sai mật khẩu!");
+            if(confirm("Xóa nhân viên này?")) { staffs.splice(document.getElementById('staffSelect').value, 1); save(); location.reload(); }
+        }
+
+        function delLoc() {
+            if(!checkPass()) return alert("Sai mật khẩu!");
+            if(confirm("Xóa địa điểm này?")) { locs.splice(document.getElementById('locSelect').value, 1); save(); updateLocs(); updateSchedLocs(); }
+        }
+
+        function addSchedule() {
+            const t = document.getElementById('schedTime').value;
+            if(!t) return alert("Chọn thời gian!");
+            const sIdx = document.getElementById('schedStaff').value;
+            const lIdx = document.getElementById('schedLoc').value;
+            scheds.push({
+                id: Date.now(), time: t, type: document.getElementById('schedType').value,
+                staffIdx: sIdx, staffName: staffs[sIdx].name,
+                locIdx: lIdx, locName: locs[lIdx].name,
+                exec: false, st: "ĐANG ĐỢI"
+            });
+            save(); renderSched();
+        }
+
         function startClock() {
             setInterval(() => {
                 const now = new Date(); document.getElementById('clock').innerText = now.toLocaleTimeString('vi-VN');
-                scheds.forEach(s => { if(!s.exec) { const diff = now - new Date(s.time); if(diff >= 0 && diff < 60000) { trigger(s.type, staffs[s.sIdx], locs[s.lIdx]); s.exec = true; s.st = "XONG"; save(); renderSched(); } else if (diff >= 60000) { s.exec = true; s.st = "BỎ QUA"; save(); renderSched(); } } });
+                scheds.forEach(s => {
+                    if(!s.exec) {
+                        const diff = now - new Date(s.time);
+                        if(diff >= 0 && diff < 60000) {
+                            triggerAPI(s.type, staffs[s.staffIdx], locs[s.locIdx]);
+                            s.exec = true; s.st = "XONG"; save(); renderSched();
+                        } else if (diff >= 60000) {
+                            s.exec = true; s.st = "BỎ QUA"; save(); renderSched();
+                        }
+                    }
+                });
             }, 2000);
         }
-        async function trigger(t, s, l) {
-            log(`Gửi [${t}] cho ${s.name} tại ${l.name}...`);
-            try {
-                const res = await fetch(t=='OT' ? API_OT : API_OFFICE, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({staff_id:s.id, location_data:{lat:l.lat, long:l.lng, ip:s.ip, location_name:l.name}}) });
-                const data = await res.json(); log(`[${res.status}] ${data.message || 'Thành công'}`);
-            } catch (e) { log(`LỖI: ${e.message} (Cần tắt bảo mật trình duyệt)`, "#ff5858"); }
+
+        async function manualCheck(type) {
+            triggerAPI(type, staffs[document.getElementById('staffSelect').value], locs[document.getElementById('locSelect').value]);
         }
-        function log(m, c = "#43e97b") { const d = document.createElement('div'); d.style.color = c; d.innerText = `> ${new Date().toLocaleTimeString()} ${m}`; document.getElementById('logs').prepend(d); }
+
+        async function triggerAPI(type, st, lc) {
+            log(`Đang gửi [${type}] cho ${st.name} tại ${lc.name}...`);
+            try {
+                const res = await fetch(type === 'OT' ? API_OT : API_OFFICE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        staff_id: st.id,
+                        location_data: { lat: lc.lat, long: lc.lng, ip: st.ip, location_name: lc.name }
+                    })
+                });
+                const data = await res.json();
+                log(`[${res.status}] ${data.message || 'Thành công'}`);
+            } catch (e) { log(`LỖI: ${e.message} (Bật Allow CORS!)`, "#ff5858"); }
+        }
+
+        function log(m, c = "#43e97b") {
+            const d = document.createElement('div'); d.style.color = c;
+            d.innerText = `> ${new Date().toLocaleTimeString()} ${m}`;
+            document.getElementById('logs').prepend(d);
+        }
     </script>
 </body>
 </html>
